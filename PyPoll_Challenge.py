@@ -10,7 +10,7 @@ import os
 
 # Setup the input and output filenames
 file_to_load = os.path.join('Resources', 'election_results.csv')
-file_to_save = os.path.join('analysis', 'election_analysis.txt')
+file_to_save = os.path.join('analysis', 'election_results.txt')
 
 # Open the input data file and process it
 with open(file_to_load, "r") as election_data:
@@ -40,29 +40,61 @@ with open(file_to_load, "r") as election_data:
         else:
             candidates_votes[candidate_name] += 1
 
-with open(file_to_save, "w") as txt_file:
-    txt_file.write("Counties in the Election\n")
-    txt_file.write("-------------------------\n")
-    txt_file.write("Arapahoe\nDenver\nJefferson\n")
+divider = "-------------------------\n"
 
-    winning_candidate = ""
+with open(file_to_save, "w") as txt_file:
+    results_message = (
+        f'Election Results\n'
+        f'{divider}'
+        f'Total Votes: {total_votes:,}\n'
+        f'{divider}\n'
+        f'County Votes:\n'
+    )
+    txt_file.write(results_message)
+    print(results_message)
+    
     winning_percentage = 0
     winning_vote_count = 0
+    
+    winning_county = ""
+    for county in counties_votes.keys():
+        vote_count = counties_votes[county]
+        percentage = vote_count / total_votes * 100
+        results_message = f'{county}: {percentage:.1f}% ({vote_count:,})\n'
+        txt_file.write(results_message)
+        print(results_message)
+        if (vote_count > winning_vote_count):
+            winning_vote_count = vote_count
+            winning_county = county
+    
+    results_message = (
+        f'\n{divider}'
+        f'Largest County Turnout: {winning_county}\n'
+        f'{divider}'
+    )
+    txt_file.write(results_message)
+    print(results_message)
 
+    winning_candidate = ""
+    winning_vote_count = 0
+    winning_percentage = 0
     for candidate_name in candidates_votes:
         vote_count = candidates_votes[candidate_name]
         percentage = vote_count / total_votes * 100
-        txt_file.write(f'{candidate_name}: {percentage: .1f}% ({candidates_votes[candidate_name]})\n')
+        results_message = f'{candidate_name}: {percentage:.1f}% ({vote_count:,})\n'
+        txt_file.write(results_message)
+        print(results_message)
         if (vote_count > winning_vote_count and percentage > winning_percentage):
             winning_candidate = candidate_name
             winning_percentage = percentage
             winning_vote_count = vote_count
 
-    winner_summary = (
-        f'\n---------------------------------\n'
+    results_message = (
+        f'{divider}'
         f'Winner:  {winning_candidate}\n'
-        f'Winning Vote Count:  {winning_vote_count}\n'
-        f'Winning Percentage:  {winning_percentage}\n'
-        f'---------------------------------\n'
+        f'Winning Vote Count: {winning_vote_count:,}\n'
+        f'Winning Percentage: {winning_percentage:.1f}%\n'
+        f'{divider}'
     )
-    txt_file.write(winner_summary)
+    txt_file.write(results_message)
+    print(results_message)
