@@ -11,10 +11,10 @@ A representative from the Colorado Board of Elections has requested an audit of 
 
 ## Resources
 - Source Data:  [election_results.csv](./Resources/election_results.csv)
-- Analysis Script:  PyPoll_Challenge.py (./PyPoll_Challenge.py)
-- Tools Used:  Python 3.7, Visual Studio Code
+- Analysis Script:  [PyPoll_Challenge.py] (./PyPoll_Challenge.py)
 - Script Terminal Output:  [terminal_output.png](./analysis/terminal_output.png)
 - Script Output File:  [election_results.txt](./analysis/election_results.txt)
+- Tools Used:  Python 3.7, Visual Studio Code
 
 ## Election Audit Results
 The analysis of the election data show that:
